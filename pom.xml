@@ -3,126 +3,63 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>serenity-appium-mobile-native-app-automation</groupId>
-    <artifactId>serenity-appium-mobile-native-app-automation</artifactId>
+    <artifactId>ParallelExecutionWithAppiumAndSeleniumGrid</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Test project with Serenity and Appium to perform UI tests on native mobile app</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>1.2.3-rc.4</serenity.version>   <!-- https://bintray.com/serenity/maven/serenity-core/ -->
-        <serenity.maven.version>1.2.2</serenity.maven.version>
-        <serenity.cucumber.version>1.1.13</serenity.cucumber.version>   <!--  https://bintray.com/serenity/maven/serenity-cucumber/ -->
-    </properties>
-
-    <repositories>
-      <repository>
-	        <snapshots>
-	        	<enabled>false</enabled>
-	        </snapshots>
-	        <id>central</id>
-	        <name>bintray</name>
-	        <url>http://jcenter.bintray.com</url>
-      </repository>
-    </repositories>
-    <pluginRepositories>
-      <pluginRepository>
-	        <snapshots>
-	        	<enabled>false</enabled>
-	        </snapshots>
-	        <id>central</id>
-	        <name>bintray-plugins</name>
-	        <url>http://jcenter.bintray.com</url>
-      </pluginRepository>
-    </pluginRepositories>
+    <groupId>ParallelExecutionWithAppiumAndSeleniumGrid</groupId>
+       
+    <name>Demo project to show parallel execution with help of Appium, Selenium Grid, TestNG</name>
 
     <dependencies>
         <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-core</artifactId>
-            <version>${serenity.version}</version>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.4.0</version>
         </dependency>
         <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-cucumber</artifactId>
-            <version>${serenity.cucumber.version}</version>
-        </dependency>			
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.7</version>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>5.0.0-BETA9</version>
+            <exclusions>
+                <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-junit</artifactId>
-            <version>${serenity.version}</version>
-            <scope>test</scope>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
         </dependency>
-        <dependency>
+<!--         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.11</version>
             <scope>test</scope>
+        </dependency> -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-        <dependency>
-           <groupId>com.github.cukedoctor</groupId>
-           <artifactId>Cukedoctor-converter</artifactId>
-           <version>1.0.6</version>
-        </dependency>
-        <dependency>
-		    <groupId>com.googlecode.json-simple</groupId>
-		    <artifactId>json-simple</artifactId>
-		    <version>1.1</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.11</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <build>
+<build>
         <plugins>
-	        <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-surefire-plugin</artifactId>
-	                <version>2.19.1</version>
-	                <configuration>
-	                    <testFailureIgnore>true</testFailureIgnore>
-	                    <parallel>classes</parallel>
-	                    <threadCount>1</threadCount>
-	                    <skip>false</skip>
-	                </configuration>
-	            </plugin>
-        
-		     <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <includes>
-                        <include>**Test.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>FlipkartAppSingleDeviceRunIT.java</exclude>
-                    </excludes>
-					<!--  <parallel>methods</parallel>
-                    <threadCount>2</threadCount>
-                    <reuseForks>true</reuseForks>
-                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine> -->
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>         
-		              		              
-            <plugin>
+          <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
@@ -131,28 +68,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>net.serenity-bdd.maven.plugins</groupId>
-                <artifactId>serenity-maven-plugin</artifactId>
-                <version>${serenity.maven.version}</version>
-                <dependencies>
-                  <dependency>
-                    <groupId>net.serenity-bdd</groupId>
-                    <artifactId>serenity-core</artifactId>
-                    <version>${serenity.version}</version>
-                  </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>serenity-reports</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>	       
-        </plugins>
-    </build>
+   </plugins>
+</build>
 </project>
 

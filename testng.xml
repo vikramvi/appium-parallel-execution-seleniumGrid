@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="RunAll Test" parallel="tests" thread-count="2">
+
+	<test name="Test-Nexus">
+		<parameter name="appName_" value="dummy_Android_1" />
+		<classes>
+			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/>
+		</classes>
+	</test>
+	
+	<test name="Test-Samsung">
+		<parameter name="appName_" value="dummy_Android_2" />
+		<classes>
+			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/>
+		</classes>
+	</test>
+	
+</suite>
