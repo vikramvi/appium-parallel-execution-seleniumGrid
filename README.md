@@ -1,5 +1,5 @@
-This project shows Appium and Serenity framework integration to run sample test case on native Android app.
 
+<<<<<<< HEAD
 ### Before Run Settings
 
 1.  Have a android emulator or device connected and running
@@ -83,3 +83,5 @@ Method 2:
 Why this is better than using Appium Client ?
 
 	I find this Ruby way of playing with app ( REPL ) much easier than Appium Client as later is slower and buggier.
+=======
+>>>>>>> serenity_grid_appium
