@@ -8,11 +8,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
-public class AppiumSingleDeviceTest {
+import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;;
+
+public class AppiumSingleDeviceTest extends AppiumGridSetup{
        private AndroidDriver driver;
     
      //make sure you can install apk from command line first on emulator
@@ -22,8 +23,8 @@ public class AppiumSingleDeviceTest {
        
     @BeforeClass   
     public void setup() throws MalformedURLException {
-        try {
-            //SetupSeleniumGridAndAppiumNodesTest();
+        try {          
+            SetupSeleniumGridAndAppiumNodesTest();
  
             String directoryPath = System.getProperty("user.dir");
             

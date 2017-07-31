@@ -1,17 +1,22 @@
 package com.appium.seleniumgrid.parallel.poc;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
@@ -19,12 +24,14 @@ import org.json.simple.JSONObject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 
 //import org.openqa.grid.internal.utils.GridHubConfiguration;
 import org.openqa.grid.internal.utils.configuration.GridHubConfiguration;
 import org.openqa.grid.internal.utils.SelfRegisteringRemote;
 import org.openqa.grid.web.Hub;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.net.UrlChecker;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -95,10 +102,11 @@ public class AppiumGridSetup {
 		       getDevices().size(); //working
 		       stopAllServers(); //working
 		       startSeleniumHub(); //working
-		       generate_node_config(deviceIds.size());//working       
-		       startAppiumServerToRegisterNodeWithSeleniumHUB(deviceIds.size()); //working
+		       assertTrue( generate_node_config(deviceIds.size()) );//working       
+		       assertTrue( startAppiumServerToRegisterNodeWithSeleniumHUB(deviceIds.size()) ); //working
 		       //stopAllServers();
-                       System.out.println("stop here");
+		       //Thread.sleep(15000);
+                       //System.out.println("stop here");
 	        
 	    }catch (Exception e) {
 	       e.printStackTrace();
@@ -294,56 +302,63 @@ public class AppiumGridSetup {
      
      //https://github.com/appium/java-client/issues/544
      
-     public void generate_node_config(int devicesCount){
-             int localCount = 1;
-	     int portNumber = 4700;
-             
-	 while(localCount <= devicesCount){
-                	 //?? put sequence is not maintained
-                	  JSONObject capData = new JSONObject();	
-                	  capData.put("applicationName", "dummy_Android_" + localCount);
-                	  capData.put("browserName", "Android");
-                	  capData.put("platformName", "ANDROID");
-                	  capData.put("maxInstances", 1);
-                
-                	  JSONArray capArray = new JSONArray();
-                	  capArray.add(capData);
-                  
-                	  JSONObject parentData = new JSONObject();
-                	  JSONObject configData = new JSONObject();
-                	  
-                	  configData.put("cleanUpCycle", 2000);
-                	  configData.put("timeout", 30000);
-                	  configData.put("proxy", "org.openqa.grid.selenium.proxy.DefaultRemoteProxy");
-                	  configData.put("host", "127.0.0.1");
-                	  configData.put("port", portNumber);
-                	  configData.put("maxSession", 1);
-                	  configData.put("register", true);
-                	  configData.put("registerCycle", 5000);
-                	  configData.put("hubPort", 4444);
-                	  configData.put("hubHost", "192.168.178.21"); //?? get this value run time as IP shouldn't be STATIC
-                                
-                          parentData.put("capabilities", capArray);
-                          parentData.put("configuration", configData);
-                	           
-                	  try (FileWriter file = new FileWriter(projectDirectory + "/node_configs/device_" + localCount + ".json")) {
-                		file.write(parentData.toJSONString());
-                		System.out.println("Successfully Copied JSON Object to File...");
-                		System.out.println("\nJSON Object: " + parentData);
-                	} catch (Exception e) {
-                	    e.printStackTrace();
-                	}
-                	  
-                	  localCount++;
-                	  portNumber++;
+     public boolean generate_node_config(int devicesCount){
+	 try{
+                     int localCount = 1;
+        	     int portNumber = 4700;
+                     
+        	 while(localCount <= devicesCount){
+                        	 //?? put sequence is not maintained
+                        	  JSONObject capData = new JSONObject();	
+                        	  capData.put("applicationName", "dummy_Android_" + localCount);
+                        	  capData.put("browserName", "Android");
+                        	  capData.put("platformName", "ANDROID");
+                        	  capData.put("maxInstances", 1);
+                        
+                        	  JSONArray capArray = new JSONArray();
+                        	  capArray.add(capData);
+                          
+                        	  JSONObject parentData = new JSONObject();
+                        	  JSONObject configData = new JSONObject();
+                        	  
+                        	  configData.put("cleanUpCycle", 2000);
+                        	  configData.put("timeout", 30000);
+                        	  configData.put("proxy", "org.openqa.grid.selenium.proxy.DefaultRemoteProxy");
+                        	  configData.put("host", "127.0.0.1");
+                        	  configData.put("port", portNumber);
+                        	  configData.put("maxSession", 1);
+                        	  configData.put("register", true);
+                        	  configData.put("registerCycle", 5000);
+                        	  configData.put("hubPort", 4444);
+                        	  //configData.put("hubHost", "192.168.178.21"); //?? get this value run time as IP shouldn't be STATIC
+                        	  configData.put("hubHost", InetAddress.getLocalHost().getHostAddress());
+                                        
+                                  parentData.put("capabilities", capArray);
+                                  parentData.put("configuration", configData);
+                        	           
+                        	  try (FileWriter file = new FileWriter(projectDirectory + "/node_configs/device_" + localCount + ".json")) {
+                        		file.write(parentData.toJSONString());
+                        		System.out.println("Successfully Copied JSON Object to File...");
+                        		System.out.println("\nJSON Object: " + parentData);
+                        	} catch (Exception e) {
+                        	    e.printStackTrace();
+                        	}
+                        	  
+                        	  localCount++;
+                        	  portNumber++;
+        	 }
+        	  
+        	 System.out.println("generate_node_config is Success"); 
+        	 return true;
+	 }catch(Exception e){
+	     e.printStackTrace();
+	     return false;
 	 }
-	  
-	 System.out.println("generate_node_config is Success"); 
      }
      
      //https://github.com/appium/java-client/blob/master/docs/The-starting-of-an-app-using-Appium-node-server-started-programmatically.md
      //http://appium.github.io/java-client/io/appium/java_client/service/local/AppiumServiceBuilder.html#withLogFile-java.io.File-
-     public void startAppiumServerToRegisterNodeWithSeleniumHUB(int devicesCount){
+     public boolean startAppiumServerToRegisterNodeWithSeleniumHUB(int devicesCount){
 	 try{
             	 int localCount = 1;
             	 int portNumber = 4700;
@@ -369,24 +384,67 @@ public class AppiumGridSetup {
                                                 // .withArgument(GeneralServerFlag.LOCAL_TIMEZONE, "true")  NOT WORKING TO BE FIXED
                                          .withCapabilities(new DesiredCapabilities(ImmutableMap.of(MobileCapabilityType.UDID, UDID))));
                                  
-                    	     driverLocalService1.start();
-                         	
-                                 if( isAppiumServerRunning(15) ){
+                    	      driverLocalService1.start();
+                         	                    	      
+                    	      assertTrue( checkForAppiumServerNodeFromAppiumServerLog(logFile) );
+                    	      
+                    	      //doesn't work properly, doesn't wait till appium server is fully up & running
+                    	      //assertTrue( waitUntilAppiumServerIsRunnning(portNumber) );
+                    	     
+                    	    //doesn't work properly, doesn't wait till appium server is fully up & running
+                            /*if( isAppiumServerRunning(15) ){
                                      System.out.println("Appium Server is Running For Device   " + UDID );
                     	     }else{
                     	            System.err.println("*** Appium Server is down");
-                    	    }
+                    	    }*/
             	     
                                  localCount++;
                                  portNumber++;
                                  bootstrapPortNumber++;
             	 }
             	 System.out.println("startAppiumServerToRegisterNodeWithSeleniumHUB is Success");
+            	 return true;
 	 }catch(Exception e){
 	     e.printStackTrace();
+	     return false;
+	 }
+     }
+    
+     BufferedReader br;
+     public boolean checkForAppiumServerNodeFromAppiumServerLog(File appiumServerLogFile) {
+	 try {
+                    br = new BufferedReader(new FileReader( appiumServerLogFile ) );
+                    String line;
+                    Integer timer = 0;
+                    
+                    while (timer < 30) {
+                        line = br.readLine();
+                            if (line.contains("[Appium] Appium successfully registered with the grid")) {
+                                System.out.println("CONFIRMED - Appium successfully registered with the grid " + appiumServerLogFile.toString() );
+                                return true;
+                            } else {
+                                Thread.sleep(1000);
+                                timer++;
+                            }
+                    }
+                    
+                    return false;
+	 }catch(Exception e) {
+	     e.printStackTrace();
+	     return false;
 	 }
      }
          
+     private boolean waitUntilAppiumServerIsRunnning(Integer portNumber)throws Exception{
+	 final URL status = new URL("http://127.0.0.1:"+ portNumber +"/wd/hub" + "/sessions");
+	        try {
+	            new UrlChecker().waitUntilAvailable(30, TimeUnit.MILLISECONDS, status);
+	            return true;
+	        } catch (UrlChecker.TimeoutException e) {
+	            return false;
+	        }
+     }
+     
      public ArrayList<String> PID_Devices = new ArrayList<String>();
      public static int globalDevicesCount = 0;
      public boolean isAppiumServerRunning(int timeOut){
