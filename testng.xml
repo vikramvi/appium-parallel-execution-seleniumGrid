@@ -4,11 +4,14 @@
 <!--  TestNG Executing Parallel Tests Example -->
 <!-- http://howtodoinjava.com/testng/testng-executing-parallel-tests/  -->
 <suite name="RunAll Test" parallel="tests" thread-count="2">
-
+<listeners>
+<listener class-name="com.appium.testng.listeners.DriverListener"></listener>
+</listeners>
 	<test name="Test-Nexus">
 		<parameter name="appName_" value="dummy_Android_1" />
 		<classes>
 			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/>
+			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTestClass2"/>
 		</classes>
 	</test>
 	
@@ -16,6 +19,7 @@
 		<parameter name="appName_" value="dummy_Android_2" />
 		<classes>
 			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/>
+			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTestClass2"/>
 		</classes>
 	</test>
 	

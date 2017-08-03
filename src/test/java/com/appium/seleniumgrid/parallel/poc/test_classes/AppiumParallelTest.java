@@ -7,7 +7,10 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;
+import com.appium.testng.listeners.LocalDriverManager;
 
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -34,7 +37,7 @@ public class AppiumParallelTest extends AppiumGridSetup{
     //Synchronized Blocks
     //http://tutorials.jenkov.com/java-concurrency/synchronized.html
     //https://stackoverflow.com/questions/2120248/how-to-synchronize-a-static-variable-among-threads-running-different-instances-o
-    public void setUpMethodForSingleRunOnly(){
+    /*public void setUpMethodForSingleRunOnly(){
 	try {
                 	synchronized (countLock){
                         	if(isMethodCalled){
@@ -48,35 +51,42 @@ public class AppiumParallelTest extends AppiumGridSetup{
 	}catch(Exception e) {
 	    e.printStackTrace();
 	}
-    }
+    }*/
     
-    @BeforeClass
-    public void beforeClass() {
-        long id = Thread.currentThread().getId();
-        System.out.println("@BeforeClass =  Thread id is: " + id);       
-    }
+//    @BeforeClass
+//    @Parameters({ "appName_" })
+//    public void beforeClass(String appName){
+//        long id = Thread.currentThread().getId();
+//        System.out.println("@BeforeClass =  Thread id is: " + id);
+//        //AndroidDriverSet(appName);
+//    }
        
-    @BeforeSuite
-    public synchronized void setUpSeleniumGridAndDeviceNodes() {
-	System.out.println("@BeforeSuite");
-	setUpMethodForSingleRunOnly();
-    }
+//    @BeforeSuite
+//    public synchronized void setUpSeleniumGridAndDeviceNodes() {
+//	try {
+//	System.out.println("@BeforeSuite");
+//	////setUpMethodForSingleRunOnly();
+//	//System.setOut(new PrintStream( new FileOutputStream("eclipse_console_output.txt") ));
+//	}catch(Exception e) {
+//	    e.printStackTrace();
+//	}
+//    }
     
-    @BeforeTest(alwaysRun = true)
-    //@BeforeSuite(alwaysRun = true)
-    @Parameters({ "appName_" })
-    public synchronized void AndroidDriverSet(String appName){
-	try{
-	        long id = Thread.currentThread().getId();
-	        System.out.println("@BeforeTest =  Thread id is: " + id);
-	        //setUpMethodForSingleRunOnly();
-	        createDriver(appName);
-	}catch(Exception e) {	  
-	        e.printStackTrace();
-	}
-    }
+//    @BeforeTest(alwaysRun = true)
+//    //@BeforeSuite(alwaysRun = true)
+//    @Parameters({ "appName_" })
+//    public synchronized void AndroidDriverSet(String appName){
+//	try{
+//	        long id = Thread.currentThread().getId();
+//	        System.out.println("@BeforeTest =  Thread id is: " + id);
+//	        //setUpMethodForSingleRunOnly();
+//	        ////createDriver(appName);
+//	}catch(Exception e) {	  
+//	        e.printStackTrace();
+//	}
+//    }
     
-    public synchronized void createDriver(String applicationName) throws MalformedURLException {
+    /*public synchronized void createDriver(String applicationName) throws MalformedURLException {
         try {                
                 String directoryPath = System.getProperty("user.dir");
                 
@@ -92,7 +102,7 @@ public class AppiumParallelTest extends AppiumGridSetup{
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
     //@Test
     public void launchTest() throws InterruptedException {
@@ -104,13 +114,13 @@ public class AppiumParallelTest extends AppiumGridSetup{
     @Test
     public void clickTest(){
 	try{
-	    System.err.println("clickTest()    Thread id: " + Thread.currentThread().getId() + "       " + driver.hashCode());
+	        System.err.println("clickTest()    Thread id: " + Thread.currentThread().getId() + "       " + LocalDriverManager.getDriver().hashCode());
 	    
-	        Thread.sleep(5000);
-               driver.findElementById("com.wunderkinder.wunderlistandroid:id/LoginButton").click();
-               driver.navigate().back();
-               driver.navigate().back();
-               Thread.sleep(5000);
+	        Thread.sleep(2000);
+               LocalDriverManager.getDriver().findElementById("com.wunderkinder.wunderlistandroid:id/LoginButton").click();
+               LocalDriverManager.getDriver().navigate().back();
+               LocalDriverManager.getDriver().navigate().back();
+               Thread.sleep(2000);
 	}catch(Exception e){	  
 	    e.printStackTrace();
 	    Assert.assertTrue(false);
@@ -120,13 +130,13 @@ public class AppiumParallelTest extends AppiumGridSetup{
     @Test
     public void clickTest_2(){
 	try{
-	       System.err.println("clickTest_2()    Thread id: " + Thread.currentThread().getId() + "       " + driver.hashCode());
+	       System.err.println("clickTest_2()    Thread id: " + Thread.currentThread().getId() + "       " + LocalDriverManager.getDriver().hashCode());
 	    
-	        Thread.sleep(5000);
-               driver.findElementById("com.wunderkinder.wunderlistandroid:id/CreateAccountButton").click();
-               driver.navigate().back();
-               driver.navigate().back();
-               Thread.sleep(5000);               
+	        Thread.sleep(2000);
+	        LocalDriverManager.getDriver().findElementById("com.wunderkinder.wunderlistandroid:id/CreateAccountButton").click();
+	        LocalDriverManager.getDriver().navigate().back();
+	        LocalDriverManager.getDriver().navigate().back();
+               Thread.sleep(2000);               
 	}catch(Exception e){	  
 	    e.printStackTrace();
 	    Assert.assertTrue(false);
@@ -134,21 +144,21 @@ public class AppiumParallelTest extends AppiumGridSetup{
     }
     
 
-    @AfterTest
-    public void afterTest() {
-        long id = Thread.currentThread().getId();
-        System.out.println("@AfterTest  =  Thread id is:  " + id);
-    }
+//    @AfterTest
+//    public void afterTest() {
+//        long id = Thread.currentThread().getId();
+//        System.out.println("@AfterTest  =  Thread id is:  " + id);
+//    }
     
     //@AfterSuite
-    @AfterClass
-    public void teardown() {
-	long id = Thread.currentThread().getId();
-        System.out.println("@AfterClass  =  Thread id is:  " + id);
-        
-        if (driver != null) {
-            driver.quit();
-        }
-    }
+//    @AfterClass
+//    public void teardown() {
+//	long id = Thread.currentThread().getId();
+//        System.out.println("@AfterClass  =  Thread id is:  " + id);
+//        
+//        if (driver != null) {
+//            driver.quit();
+//        }
+//    }
     
 }
