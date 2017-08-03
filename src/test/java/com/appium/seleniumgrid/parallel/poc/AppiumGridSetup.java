@@ -47,7 +47,7 @@ import org.openqa.grid.selenium.GridLauncherV3;
 //import net.serenitybdd.junit.runners.SerenityRunner;
 
 //@RunWith(SerenityRunner.class)
-public class AppiumGridSetup {
+public class AppiumGridSetup extends AppiumDriver{
 
     //https://github.com/isonic1/appium-mobile-grid 
     //1. get Android Devices
