@@ -11,14 +11,14 @@
 		<parameter name="appName_" value="dummy_Android_1" />
 		<classes>
 			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/>
-			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTestClass2"/>
+			<!--  <class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTestClass2"/> -->
 		</classes>
 	</test>
 	
 	<test name="Test-Samsung">
 		<parameter name="appName_" value="dummy_Android_2" />
 		<classes>
-			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/>
+			<!--  <class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTest"/> -->
 			<class name="com.appium.seleniumgrid.parallel.poc.test_classes.AppiumParallelTestClass2"/>
 		</classes>
 	</test>
