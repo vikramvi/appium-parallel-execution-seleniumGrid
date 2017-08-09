@@ -1,9 +1,7 @@
 package com.appium.seleniumgrid.parallel.poc;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
@@ -22,8 +20,6 @@ import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 //import org.openqa.grid.internal.utils.GridHubConfiguration;
@@ -44,9 +40,6 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
 import org.openqa.grid.selenium.GridLauncherV3;
 
-//import net.serenitybdd.junit.runners.SerenityRunner;
-
-//@RunWith(SerenityRunner.class)
 public class AppiumGridSetup extends AppiumDriver{
 
     //https://github.com/isonic1/appium-mobile-grid 

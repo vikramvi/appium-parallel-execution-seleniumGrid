@@ -11,10 +11,10 @@ import org.testng.annotations.Test;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
-import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;;
+import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;
 
 public class AppiumSingleDeviceTest extends AppiumGridSetup{
-       private AndroidDriver driver;
+       //private AndroidDriver driver;
     
      //make sure you can install apk from command line first on emulator
       //run selenium server hub and appium node from command line
