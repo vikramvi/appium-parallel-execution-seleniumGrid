@@ -18,23 +18,32 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;
+import com.wunderkinder.wunderlistandroid.cucumber.pages.*;
 
 //@RunWith(Cucumber.class)
 @CucumberOptions(features={"src/test/resources/WunderlistAndroid.feature"}, strict = false, format = { "pretty","json:target/cucumber.json" }, tags = { "~@ignore" })
 public class WLSignIn extends AbstractTestNGCucumberTests{
     //private AndroidDriver driver;
     protected AppiumGridSetup gridObject = null;
-        
+    protected WLLandingPage HomePage;
+    protected WLSignInPage SignInPage;    
+    
     public void WLSignSetObject(){
 	System.out.println("WLSign");
 	setGridObjectDriver(gridObject);
     }
     
-    @BeforeClass
+    //@BeforeClass
+    //This approach breaks parallle run thus used TestNG Listener approach
+    //Also 
     public void launchAppiumServer() throws MalformedURLException {
 	try {          	   	    
         	    gridObject = new AppiumGridSetup();
         	    gridObject.SetupSeleniumGridAndAppiumNodesTest();
+        	    
+        	    createMobileDriver(gridObject);
+        	    HomePage  =  new WLLandingPage(gridObject.driver);
+        	    SignInPage =  new WLSignInPage(gridObject.driver);
         	    	    
         	    System.out.println(gridObject.hashCode());            
         }catch(Exception e){
