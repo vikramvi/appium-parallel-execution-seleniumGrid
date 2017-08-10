@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--  http://www.sahajamit.com/Cucumber-JVM-with-TestNG/ -->
+<!-- https://github.com/sahajamit/cucumber-jvm-testng-integration -->
+<suite name="Custom suite" verbose="1" thread-count="2" parallel="tests" configfailurepolicy="continue">
+    <listeners>
+        <listener class-name="com.appium.testng.listeners.DriverListener"></listener>
+    </listeners>
+    <test name="Cucumber Date Calculator Test 1" annotations="JDK" preserve-order="true">
+        <parameter name="appName_" value="dummy_Android_1" />
+        <classes>
+            <class name="com.wunderkinder.wunderlistandroid.cucumber.RunCukesByFeatureAndCompositionTest1"/>
+        </classes>
+    </test>
+    
+    <test name="Cucumber Date Calculator Test 2" annotations="JDK" preserve-order="true">
+        <parameter name="appName_" value="dummy_Android_2" />
+        <classes>
+            <class name="com.wunderkinder.wunderlistandroid.cucumber.RunCukesByFeatureAndCompositionTest2"/>
+        </classes>
+    </test>
+</suite>

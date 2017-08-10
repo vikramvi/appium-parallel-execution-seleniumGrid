@@ -12,6 +12,7 @@ import com.wunderkinder.wunderlistandroid.cucumber.pages.*;
 import com.wunderkinder.wunderlistandroid.cucumber.WLSignIn;
 
 import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;
+import com.appium.testng.listeners.LocalDriverManager;
 
 public class LandingPageScenariosSteps extends WLSignIn{
 
@@ -20,18 +21,25 @@ public class LandingPageScenariosSteps extends WLSignIn{
     
     String validEmailId = "vikram@test.com";
             
+    //Hooks in Cucumber
+    //https://github.com/cucumber/cucumber/wiki/Hooks
     @Before
-    //Why to pass Scenario object ??
+    //Why to pass Scenario object ??  
+    //https://stackoverflow.com/questions/45588769/when-to-use-scenario-scenario-parameter-in-cucumber-jvm
     //accessing object from parent class directly didn't work, parent class object was always null ??
-    public void setUp(Scenario scenario) throws Exception{
-	WLSignIn wlParent = new WLSignIn();
-	AppiumGridSetup apsObject = new AppiumGridSetup();
+    //https://stackoverflow.com/questions/45592218/objects-created-in-parent-class-become-null-when-tried-to-access-in-child-class
+    //public void setUp(Scenario scenario) throws Exception{
+    public void setUp() throws Exception{
+	////WLSignIn wlParent = new WLSignIn();
+	////AppiumGridSetup apsObject = new AppiumGridSetup();
 	
-	wlParent.createMobileDriver(apsObject);
-	System.out.println( wlParent.getGridObjectDriver() );
+	////wlParent.createMobileDriver(apsObject);
+	////System.out.println( wlParent.getGridObjectDriver() );
 	
-	HomePage  =  new WLLandingPage(wlParent.getGridObjectDriver());
-	SignInPage =  new WLSignInPage(wlParent.getGridObjectDriver());
+	////HomePage  =  new WLLandingPage(wlParent.getGridObjectDriver());
+	////SignInPage =  new WLSignInPage(wlParent.getGridObjectDriver());
+	HomePage   = new WLLandingPage(LocalDriverManager.getDriver());
+	SignInPage  = new WLSignInPage(LocalDriverManager.getDriver());
     }
     
   //------- Given 
