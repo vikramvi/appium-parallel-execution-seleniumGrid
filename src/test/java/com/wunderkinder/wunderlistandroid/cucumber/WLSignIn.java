@@ -3,6 +3,7 @@ package com.wunderkinder.wunderlistandroid.cucumber;
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 
@@ -42,8 +43,8 @@ public class WLSignIn extends AbstractTestNGCucumberTests{
         	    gridObject.SetupSeleniumGridAndAppiumNodesTest();
         	    
         	    createMobileDriver(gridObject);
-        	    HomePage  =  new WLLandingPage(gridObject.driver);
-        	    SignInPage =  new WLSignInPage(gridObject.driver);
+        	    HomePage  =  new WLLandingPage(gridObject.driverParent);
+        	    SignInPage =  new WLSignInPage(gridObject.driverParent);
         	    	    
         	    System.out.println(gridObject.hashCode());            
         }catch(Exception e){
@@ -64,9 +65,9 @@ public class WLSignIn extends AbstractTestNGCucumberTests{
                   desiredCapabilities.setCapability("applicationName", "dummy_Android_1");
                   desiredCapabilities.setCapability(MobileCapabilityType.APP, directoryPath + "/com.wunderkinder.wunderlistandroid.apk");
                   desiredCapabilities.setCapability("appActivity", "com.wunderkinder.wunderlistandroid.activity.WLStartViewFragmentActivity");
-                  gridObject.driver = new AndroidDriver(new URL("http://127.0.0.1:4444/wd/hub"), desiredCapabilities);
+                  gridObject.driverParent = new AndroidDriver(new URL("http://127.0.0.1:4444/wd/hub"), desiredCapabilities);
                   
-                  System.out.println(gridObject.driver.hashCode());
+                  System.out.println(gridObject.driverParent.hashCode());
 	}catch(Exception e) {
 	    e.printStackTrace();
 	}
@@ -77,8 +78,8 @@ public class WLSignIn extends AbstractTestNGCucumberTests{
     //public void dummyTestMethod() {}
     
     //@BeforeMethod
-    public AndroidDriver getGridObjectDriver() {
-	return gridObject.driver;
+    public AppiumDriver getGridObjectDriver() {
+	return gridObject.driverParent;
     }
     
     public void setGridObjectDriver(AppiumGridSetup appiumGridObject ) {

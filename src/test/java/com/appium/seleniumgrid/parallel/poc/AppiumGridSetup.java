@@ -40,7 +40,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
 import org.openqa.grid.selenium.GridLauncherV3;
 
-public class AppiumGridSetup extends AppiumDriver{
+public class AppiumGridSetup extends CustomAppiumDriver{
 
     //https://github.com/isonic1/appium-mobile-grid 
     //1. get Android Devices
@@ -71,6 +71,8 @@ public class AppiumGridSetup extends AppiumDriver{
 	       projectDirectory = System.getProperty("user.dir");
 	       FileUtils.cleanDirectory(new File( projectDirectory + "/appium_device_log/") );
 	       
+	       ////getIOSDevicesUDID();
+	       
 	       getDevices().size();
 	       stopAllServers(); 
 	       startSeleniumHub();
@@ -92,6 +94,7 @@ public class AppiumGridSetup extends AppiumDriver{
 		       projectDirectory = System.getProperty("user.dir");
 		       FileUtils.cleanDirectory(new File( projectDirectory + "/appium_device_log/") );
 		       
+		       ////getIOSDevicesUDID();
 		       getDevices().size(); //working
 		       stopAllServers(); //working
 		       startSeleniumHub(); //working
@@ -295,6 +298,7 @@ public class AppiumGridSetup extends AppiumDriver{
      
      //https://github.com/appium/java-client/issues/544
      
+     //online JSON formatter, validator https://jsonformatter.org/
      public boolean generate_node_config(int devicesCount){
 	 try{
                      int localCount = 1;
@@ -374,7 +378,7 @@ public class AppiumGridSetup extends AppiumDriver{
                                                  .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                                                  .withArgument(GeneralServerFlag.LOG_LEVEL, "debug")
                                                  .withArgument(GeneralServerFlag.CONFIGURATION_FILE, nodeConfigFilePath)
-                                                // .withArgument(GeneralServerFlag.LOCAL_TIMEZONE, "true")  NOT WORKING TO BE FIXED
+                                                 .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)  //https://github.com/appium/java-client/issues/694
                                          .withCapabilities(new DesiredCapabilities(ImmutableMap.of(MobileCapabilityType.UDID, UDID))));
                                  
                     	      driverLocalService1.start();
@@ -560,4 +564,31 @@ public class AppiumGridSetup extends AppiumDriver{
       * In case you do something wrong as appium --nodeconfig EMULATOR_Nexus_4_1.json --bp 2252, you will get nice output about flags usage
      */
               
+      //To Be Fixed
+      private void getIOSDevicesUDID(){
+	  try {
+	          String[] cmd_string = {"system_profiler" , "SPUSBDataType | sed -n -E -e '/(iPhone|iPad)/,/Serial/s/ *Serial Number: *(.+)/\\1/p'"};
+	          Process p = Runtime.getRuntime().exec("system_profiler SPUSBDataType | sed -n -E -e '/(iPhone|iPad)/,/Serial/s/ *Serial Number: *(.+)/\\1/p'");
+	          
+	          BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+     	          String s = null;
+     	               	     
+         	   while ((s = stdInput.readLine()) != null) {
+         		deviceIds.add(s);
+         	   }
+	          	          
+	          /*String output = cmd.runCommand(cmd_string);
+		  String[] lines = output.split("\n");
+		  String deviceID;
+		  
+		  for(int i=1;i<lines.length;i++){
+		        deviceID = lines[i];
+			deviceIds.add(deviceID);
+		  }	*/	  
+	  }catch(Exception e) {
+	      e.printStackTrace();
+	      System.out.println("NO CONNECTED IOS DEVICES FOUND");	     
+	  }
+      }
+     
 }

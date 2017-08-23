@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <!--  TestNG Executing Parallel Tests Example -->
-<!-- http://howtodoinjava.com/testng/testng-executing-parallel-tests/  -->
+<!-- //Blog Reference http://howtodoinjava.com/testng/testng-executing-parallel-tests/  -->
 <suite name="RunAll Test" parallel="tests" thread-count="2">
 <listeners>
 <listener class-name="com.appium.testng.listeners.DriverListener"></listener>

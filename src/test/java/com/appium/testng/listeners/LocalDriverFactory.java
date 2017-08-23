@@ -19,9 +19,17 @@ public class LocalDriverFactory {
                   desiredCapabilities.setCapability("applicationName", applicationName);
                   desiredCapabilities.setCapability(MobileCapabilityType.APP, directoryPath + "/com.wunderkinder.wunderlistandroid.apk");           
                   desiredCapabilities.setCapability("appActivity", "com.wunderkinder.wunderlistandroid.activity.WLStartViewFragmentActivity");
-                  //desiredCapabilities.setCapability("--local-timezone", true);
-                              
-                   driver = new AndroidDriver(new URL("http://127.0.0.1:4444/wd/hub"), desiredCapabilities);
+                  
+                  
+                  //WebDriver vs RemoteWebDriver
+                  //https://groups.google.com/forum/#!topic/webdriver/4h7YWWOQ60M
+                  // RemoteWebDriver > AppiumDriver > AndroidDriver / iOSDriver
+                   //https://discuss.appium.io/t/appiumdriver-or-android-ios-driver-mobileelement-webelement/14489/2
+                  //"...For WebDriver nodes, you will need to use the RemoteWebDriver and the DesiredCapabilities object...."
+                  //https://github.com/SeleniumHQ/selenium/wiki/Grid2
+                  //How to start an AppiumDriver when the server is launched remotely or locally
+                  //https://github.com/appium/appium-dotnet-driver/wiki/How-to-start-an-AppiumDriver-when-the-server-is-launched-remotely-or-locally
+                   driver = new AndroidDriver(new URL("http://192.168.2.48:4444/wd/hub"), desiredCapabilities);
                    
         	  return driver;
 	 }catch(Exception e) {

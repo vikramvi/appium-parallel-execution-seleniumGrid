@@ -12,7 +12,9 @@ import org.testng.ISuiteListener;
 
 import com.appium.seleniumgrid.parallel.poc.AppiumGridSetup;
 
+//Blog Reference
 //https://rationaleemotions.wordpress.com/2013/07/31/parallel-webdriver-executions-using-testng/
+//http://toolsqa.com/selenium-webdriver/testng-listeners/
 public class DriverListener extends AppiumGridSetup implements IInvokedMethodListener, ISuiteListener{
 
     @Override

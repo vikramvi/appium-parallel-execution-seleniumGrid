@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
+<!-- References -->
 <!--  http://www.sahajamit.com/Cucumber-JVM-with-TestNG/ -->
 <!-- https://github.com/sahajamit/cucumber-jvm-testng-integration -->
+<!-- https://github.com/igniteram/testng-cucumber -->
 <suite name="Custom suite" verbose="1" thread-count="2" parallel="tests" configfailurepolicy="continue">
     <listeners>
         <listener class-name="com.appium.testng.listeners.DriverListener"></listener>
